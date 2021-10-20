@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 커링 : 함수 응용
+        function _curry(fn) {
+            return function(a, b) {
+                return arguments.length == 2 ? fn(a, b) : function(b) { return fn(a, b); };
+            }
+        }
+
+        function _curryr(fn) {
+            return function(a, b) {
+                return arguments.length == 2 ? fn(a, b) : function(b) { return fn(b, a); };
+            }
+        }
+
+        const add = function(a, b) {
+            return a+b;
+        };
+        console.log(add(10, 5));
+
+        const add2 = _curry(function(a, b) {
+            return a+b;
+        });
+        const add10 = add2(10);
+        console.log(add10(5));
+        console.log(add2(5)(3));
+        console.log(add2(3, 2));
+
+
+        const sub = _curryr(function(a, b) {
+            return a - b;
+        });
+        console.log(sub(10, 5));
+
+        const sub10 = sub(10);
+        console.log(sub10(5));
+
+
+
+        // get
+        const _get = _curryr(function (obj, key) {
+            return obj == null ? undefined : obj[key];
+        });
+        const user1 = {id: 1, name: "test", age: 30};
+        console.log(_get(user1, 'name'));
+
+        var user2;
+        // console.log(user2.name);
+        console.log(_get(user2, 'name'));
+       
+    </script>
+</body>
+</html>

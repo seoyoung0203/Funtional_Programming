@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const users = [
+            {id: 1, name:'joung', age: 24},
+            {id: 2, name:'kim', age: 25},
+            {id: 3, name:'jun', age: 26},
+            {id: 4, name:'han', age: 30},
+            {id: 5, name:'lee', age: 32},
+        ];
+
+        // 30세 이상만
+        const tmp_users = [];
+        for(let i = 0; i < users.length; i++) {
+            if(users[i].age >= 30) {
+                tmp_users.push(users[i]);
+            }
+        }
+        console.log(tmp_users);
+
+        // 30세 이상 이름만 출력
+        const names = [];
+        for(let i = 0; i < tmp_users.length; i++) {
+            names.push(tmp_users[i].name);
+        }
+        console.log(names);
+
+        // 30세 미만만 위 코드와 if문 부분만 제외하곤 중복됨
+        const tmp_users2 = [];
+        for(let i = 0; i < users.length; i++) {
+            if(users[i].age < 30) {
+                tmp_users2.push(users[i]);
+            }
+        }
+        console.log(tmp_users2);
+
+        // 30세 미만 나이 출력
+        const ages = [];
+        for(let i = 0; i < tmp_users2.length; i++) {
+            ages.push(tmp_users2[i].age);
+        }
+        console.log(ages);
+
+
+        
+        // filter
+        function _filter(users, predi) {
+            const newList = [];
+            for(let i = 0; i < users.length; i++) {
+                if(predi(users[i])) {
+                    newList.push(users[i]);
+                }
+            }
+            return newList;
+        }
+        const over_30 = _filter(users, function(user) { return user.age >= 30 });
+        console.log(
+            over_30
+        );
+        console.log(
+            _filter(users, function(user) { return user.age < 30 })
+        );
+        // console.log(
+        //     _filter([1, 2, 3, 4], function(num) { return num % 2 })
+        // );
+
+
+
+        // _map 다형성 ( 여러가지 타입을 가질 수 있는 것 )
+        function _map(list, mapper) {
+            const newList = [];
+            for(let i = 0; i < list.length; i++) {
+                newList.push(mapper(list[i]));
+            }
+            return newList;
+        }
+
+        const names2 = _map(over_30, function(user) { return user.name });
+        console.log(names2);
+
+        console.log(_map([1, 2, 3, 4], function(num) { return num * 2 }));
+
+        const over_30_names = _map(
+            _filter(users, function(user) { return user.age >= 30 }),
+            function(user) { return user.name }
+        );
+        console.log(over_30_names);
+
+
+
+        // each 사용
+        function _filter(list, predi) {
+            const newList = [];
+            _each(list, function(value) {
+                if(predi(value)) newList.push(value);
+            });
+            return newList;
+        }
+        function _map(list, mapper) {
+            const newList = [];
+            _each(list, function(value) {
+                newList.push(mapper(value));
+            });
+            return newList;
+        }
+
+        function _each(list, iter) {
+            for(let i = 0; i < list.length; i++) {
+                iter(list[i]);
+            }
+            return list;
+        }
+    </script>
+</body>
+</html>
